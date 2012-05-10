@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Motion-layouts : A DSL for creating layouts easily in RubyMotion. Also comes bundled with a set of categories to make life easier." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Motion-layouts</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/malkomalko/motion-layouts">View on GitHub</a>
+
+          <h1 id="project_title">Motion-layouts</h1>
+          <h2 id="project_tagline">A DSL for creating layouts easily in RubyMotion. Also comes bundled with a set of categories to make life easier.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/malkomalko/motion-layouts/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/malkomalko/motion-layouts/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>Layouts for RubyMotion</h1>
+
+<p>A DSL for creating layouts easily in RubyMotion.  Also comes bundled with a
+set of categories to make life easier.  I'm using the word category from
+objective-c land which is basically the same as re-opening classes in ruby :D.</p>
+
+<h2>Getting started</h2>
+
+<p>Add motion-layouts as a git submodule of your RubyMotion project:</p>
+
+<pre><code>git clone https://github.com/malkomalko/motion-layouts.git vendor/motion-layouts
+</code></pre>
+
+<p>Add the motion-layouts lib path to your project 'Rakefile'</p>
+
+<div class="highlight">
+<pre><span class="no">Motion</span><span class="o">::</span><span class="no">Project</span><span class="o">::</span><span class="no">App</span><span class="o">.</span><span class="n">setup</span> <span class="k">do</span> <span class="o">|</span><span class="n">app</span><span class="o">|</span>
+  <span class="n">app</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">'myapp'</span>
+  <span class="n">app</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">unshift</span><span class="p">(</span><span class="no">Dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">project_dir</span><span class="p">,</span> <span class="s1">'vendor/motion-layouts/lib/**/*.rb'</span><span class="p">)))</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>Now, you can use motion-layouts to start making some layouts.</p>
+
+<p>I put all my layouts by convention into app/layouts but feel free to do
+whatever you want.</p>
+
+<h2>Define a layout</h2>
+
+<div class="highlight">
+<pre><span class="k">class</span> <span class="nc">NameEditorLayout</span>
+  <span class="kp">include</span> <span class="no">Layouts</span><span class="o">::</span><span class="no">Base</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">template</span>
+    <span class="no">UIToolbar</span> <span class="p">{</span>
+      <span class="n">anchor</span> <span class="s1">'top'</span>
+      <span class="n">height</span> <span class="mi">50</span>
+      <span class="n">resize</span> <span class="ss">:top</span><span class="p">,</span> <span class="ss">:right</span><span class="p">,</span> <span class="ss">:left</span><span class="p">,</span> <span class="ss">:width</span>
+      <span class="n">items</span> <span class="o">[</span>
+        <span class="o">[</span><span class="s1">'Cancel'</span><span class="p">,</span> <span class="s1">'cancel'</span><span class="o">]</span><span class="p">,</span>
+        <span class="o">[</span><span class="ss">:flexible_space</span><span class="o">]</span><span class="p">,</span>
+        <span class="o">[</span><span class="s1">'Done'</span><span class="p">,</span> <span class="s1">'done'</span><span class="o">]</span>
+      <span class="o">]</span>
+    <span class="p">}</span>
+    <span class="no">UITextField</span> <span class="p">{</span>
+      <span class="nb">id</span> <span class="s1">'nameTextField'</span>
+      <span class="n">delegate</span> <span class="vi">@controller</span>
+      <span class="n">top</span> <span class="mi">90</span>
+      <span class="n">width</span> <span class="mi">85</span><span class="o">.</span><span class="n">percent</span>
+      <span class="n">align</span> <span class="s1">'center'</span>
+      <span class="n">text_color</span> <span class="s1">'222222'</span>
+      <span class="n">background_color</span> <span class="s1">'FFFFFF'</span>
+      <span class="n">border_style</span> <span class="s1">'rounded'</span>
+      <span class="n">resize</span> <span class="ss">:top</span><span class="p">,</span> <span class="ss">:right</span><span class="p">,</span> <span class="ss">:left</span><span class="p">,</span> <span class="ss">:width</span>
+      <span class="n">placeholder</span> <span class="s1">'Enter the photo album name'</span>
+    <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>You start by including Layouts::Base and defining a self.template method.</p>
+
+<h2>Instantiate your view (from controller)</h2>
+
+<div class="highlight">
+<pre>  <span class="k">def</span> <span class="nf">viewWillAppear</span><span class="p">(</span><span class="n">animated</span><span class="p">)</span>
+    <span class="k">super</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">fromLayout</span><span class="p">(</span><span class="no">NameEditorLayout</span><span class="p">,</span> <span class="nb">self</span><span class="p">)</span>
+  <span class="k">end</span>
+</pre>
+</div>
+
+
+<p>boom.. that's it, you should see a toolbar and a text field in your view.</p>
+
+<h2>How it works</h2>
+
+<p>The project includes a mixture of categories and nodes.</p>
+
+<p>Nodes are the entry point inside self.template in your layout:</p>
+
+<div class="highlight">
+<pre><span class="k">class</span> <span class="nc">NameEditorLayout</span>
+  <span class="kp">include</span> <span class="no">Layouts</span><span class="o">::</span><span class="no">Base</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">template</span>
+    <span class="no">UIToolbar</span> <span class="p">{</span>
+      <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+    <span class="p">}</span>
+    <span class="no">UITextField</span> <span class="p">{</span>
+      <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+    <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>Every node inherits from LayoutBase which sets up a lot of shared functionality
+and handles proper instantiation.</p>
+
+<p>You have access to a few instance variables inside each node:</p>
+
+<pre><code>@parent - the parent view
+@view - the current view
+@controller - the controller who instantiated the view via view.fromLayout
+</code></pre>
+
+<p>Every node can also set a defaults hash.</p>
+
+<p>Let's take a look at the UITextField node:</p>
+
+<div class="highlight">
+<pre><span class="k">module</span> <span class="nn">Layouts</span>
+  <span class="k">class</span> <span class="nc">UITextField</span> <span class="o">&lt;</span> <span class="no">LayoutBase</span>
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">defaults</span>
+      <span class="p">{</span>
+        <span class="n">width</span><span class="p">:</span> <span class="vi">@parent</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mi">0</span><span class="o">.</span><span class="mi">90</span><span class="p">,</span>
+        <span class="n">height</span><span class="p">:</span> <span class="mi">30</span>
+      <span class="p">}</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">border_style</span><span class="p">(</span><span class="n">style</span><span class="p">)</span>
+      <span class="vi">@view</span><span class="o">.</span><span class="n">borderStyle</span> <span class="o">=</span> <span class="o">::</span><span class="no">UITextField</span><span class="o">::</span><span class="no">BORDER_STYLES</span><span class="o">.</span><span class="n">fetchWithDefault</span><span class="p">(</span><span class="n">style</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">placeholder</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+      <span class="vi">@view</span><span class="o">.</span><span class="n">placeholder</span> <span class="o">=</span> <span class="n">text</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>This is where the categories come in.  To make defining these nodes as easy
+as possible, I'm creating a collection of categories to make the process
+as smooth as can be.</p>
+
+<p>Take a look inside the lib/layouts/categories folder to see some of the
+helpers I've defined for you.</p>
+
+<h2>Todo</h2>
+
+<p>Tests Tests Tests.  This was mostly thrown together very quickly as a POC,
+but there is nothing complex going on here.</p>
+
+<p>Filling out a complete set of nodes.  I'm throwing this out now in hopes that
+people can create wrapper nodes for all the missing standard UI classes.</p>
+
+<h2>Thanks</h2>
+
+<p>Quick thanks to <a href="https://github.com/mattetti/BubbleWrap">https://github.com/mattetti/BubbleWrap</a> for letting me gut
+their README.md and for suggesting a rather nice convention for installing
+custom libs into the vendor directory until something else better comes
+along.</p>
+
+<p>Also, thanks to Laurent and the whole RubyMotion community for making iOS
+programming fun to learn.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Motion-layouts maintained by <a href="https://github.com/malkomalko">malkomalko</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
