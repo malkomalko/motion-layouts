@@ -8,7 +8,7 @@ objective-c land which is basically the same as re-opening classes in ruby :D.
 
 Add motion-layouts as a git submodule of your RubyMotion project:
 
-    git clone https://github.com/malkomalko/motion-layouts.git vendor/motion-layouts
+    git submodule add https://github.com/malkomalko/motion-layouts.git vendor/motion-layouts
 
 Add the motion-layouts lib path to your project 'Rakefile'
 
