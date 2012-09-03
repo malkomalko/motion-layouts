@@ -14,5 +14,21 @@ module Layouts
     def placeholder(text)
       @view.placeholder = text
     end
+
+    def keyboard_type(type)
+      @view.keyboardType = ::UITextInputTraits::KEYBOARD_TYPES.fetchWithDefault(type)
+    end
+
+    def return_key_type(type)
+      @view.returnKeyType = ::UITextInputTraits::RETURN_KEY_TYPES.fetchWithDefault(type)
+    end
+
+    def secure(bool)
+      @view.setSecureTextEntry bool
+    end
+
+    def capitalize(style)
+      @view.autocapitalizationType = ::UITextInputTraits::CAPITALIZATION_STYLES.fetchWithDefault(style)
+    end
   end
 end
